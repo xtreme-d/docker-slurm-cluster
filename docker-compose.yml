@@ -1,0 +1,143 @@
+version: '3.5'
+
+services:
+  headnode:
+    build:
+      context: ./apps/node
+    image: axc-node:dev
+    restart: always
+    hostname: axc-headnode
+    container_name: axc-headnode
+    volumes:
+      # support scripts
+      - ./bin:/usr/local/bin/
+      # configs
+      - ./conf/slurm.conf:/etc/slurm/slurm.conf
+      - ./conf/slurmdbd.conf:/etc/slurm/slurmdbd.conf
+      # supervisord
+      - ./conf/supervisord.conf:/etc/supervisord.conf
+      # supervisord processes
+      - ./conf/supervisor.d/munged.ini:/etc/supervisord.d/munged.ini
+      - ./conf/supervisor.d/slurmd.ini:/etc/supervisord.d/slurmd.ini
+      - ./conf/supervisor.d/slurmdbd.ini:/etc/supervisord.d/slurmdbd.ini
+      - ./conf/supervisor.d/slurmctld.ini:/etc/supervisord.d/slurmctld.ini
+      # var
+      - ./var/axc:/axc
+      - ./var/slurm:/var/spool/slurm
+      - ./var/munge:/etc/munge
+    environment:
+      IS_HEADNODE: 'yes'
+      MARIADB_HOST: ${CLUSTER_MARIADB_HOST}
+      MARIADB_USER: ${CLUSTER_MARIADB_USER}
+      MARIADB_DATABASE: ${CLUSTER_MARIADB_DATABASE}
+      MARIADB_PASSWORD: ${CLUSTER_MARIADB_PASSWORD}
+      MARIADB_ROOT_PASSWORD: ${CLUSTER_MARIADB_ROOT_PASSWORD}
+      CLUSTER_SLURM_NAME: ${CLUSTER_SLURM_NAME}
+    depends_on:
+      - mariadb
+
+  compute-01:
+    restart: always
+    container_name: axc-compute-01
+    hostname: axc-compute-01
+    image: axc-node:dev
+    volumes:
+      # support scripts
+      - ./bin:/usr/local/bin/
+      # configs
+      - ./conf/slurm.conf:/etc/slurm/slurm.conf
+      - ./conf/slurmdbd.conf:/etc/slurm/slurmdbd.conf
+      # supervisord
+      - ./conf/supervisord.conf:/etc/supervisord.conf
+      # supervisord processes
+      - ./conf/supervisor.d/munged.ini:/etc/supervisord.d/munged.ini
+      - ./conf/supervisor.d/slurmd.ini:/etc/supervisord.d/slurmd.ini
+      # var
+      - ./var/axc:/axc
+      - ./var/slurm:/var/spool/slurm
+      - ./var/munge:/etc/munge
+    depends_on:
+      - headnode
+
+  compute-02:
+    restart: always
+    container_name: axc-compute-02
+    hostname: axc-compute-02
+    image: axc-node:dev
+    volumes:
+      # support scripts
+      - ./bin:/usr/local/bin/
+      # configs
+      - ./conf/slurm.conf:/etc/slurm/slurm.conf
+      - ./conf/slurmdbd.conf:/etc/slurm/slurmdbd.conf
+      # supervisord
+      - ./conf/supervisord.conf:/etc/supervisord.conf
+      # supervisord processes
+      - ./conf/supervisor.d/munged.ini:/etc/supervisord.d/munged.ini
+      - ./conf/supervisor.d/slurmd.ini:/etc/supervisord.d/slurmd.ini
+      # var
+      - ./var/axc:/axc
+      - ./var/slurm:/var/spool/slurm
+      - ./var/munge:/etc/munge
+    depends_on:
+      - headnode
+
+  compute-03:
+    restart: always
+    container_name: axc-compute-03
+    hostname: axc-compute-03
+    image: axc-node:dev
+    volumes:
+      # support scripts
+      - ./bin:/usr/local/bin/
+      # configs
+      - ./conf/slurm.conf:/etc/slurm/slurm.conf
+      - ./conf/slurmdbd.conf:/etc/slurm/slurmdbd.conf
+      # supervisord
+      - ./conf/supervisord.conf:/etc/supervisord.conf
+      # supervisord processes
+      - ./conf/supervisor.d/munged.ini:/etc/supervisord.d/munged.ini
+      - ./conf/supervisor.d/slurmd.ini:/etc/supervisord.d/slurmd.ini
+      # var
+      - ./var/axc:/axc
+      - ./var/slurm:/var/spool/slurm
+      - ./var/munge:/etc/munge
+    depends_on:
+      - headnode
+
+  compute-04:
+    restart: always
+    container_name: axc-compute-04
+    hostname: axc-compute-04
+    image: axc-node:dev
+    volumes:
+      # support scripts
+      - ./bin:/usr/local/bin/
+      # configs
+      - ./conf/slurm.conf:/etc/slurm/slurm.conf
+      - ./conf/slurmdbd.conf:/etc/slurm/slurmdbd.conf
+      # supervisord
+      - ./conf/supervisord.conf:/etc/supervisord.conf
+      # supervisord processes
+      - ./conf/supervisor.d/munged.ini:/etc/supervisord.d/munged.ini
+      - ./conf/supervisor.d/slurmd.ini:/etc/supervisord.d/slurmd.ini
+      # var
+      - ./var/axc:/axc
+      - ./var/slurm:/var/spool/slurm
+      - ./var/munge:/etc/munge
+    depends_on:
+      - headnode
+
+  mariadb:
+    restart: always
+    container_name: axc-mariadb
+    hostname: ${CLUSTER_MARIADB_HOST}
+    image: mariadb:10.4
+    environment:
+      MYSQL_DATABASE: ${CLUSTER_MARIADB_DATABASE}
+      MYSQL_USER: ${CLUSTER_MARIADB_USER}
+      MYSQL_PASSWORD: ${CLUSTER_MARIADB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${CLUSTER_MARIADB_ROOT_PASSWORD}
+    volumes:
+      - ./conf/mariadb-slurmdbd.cnf:/etc/mysql/conf.d/slurmdbd.cnf
+      - ./var/mysql:/var/lib/mysql
