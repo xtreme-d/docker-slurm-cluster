@@ -33,7 +33,7 @@ docker-compose up -d
 To access the head node:
 
 ```
-docker exec -it axc-hednode bash
+docker exec -it axc-headnode bash
 ```
 
 NOTE: the first running of Slurm might take up to 1 minute because a new MariaDB database initiation procedure is slow a bit.
