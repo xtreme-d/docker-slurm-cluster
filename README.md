@@ -15,7 +15,7 @@ The slurm version is `v20.02.7`
 Clone the repository
 
 ```
-git checkout git@github.com:xtreme-d/docker-slurm-cluster.git docker-slurm-cluster
+git clone git@github.com:xtreme-d/docker-slurm-cluster.git docker-slurm-cluster
 cd docker-slurm-cluster
 ```
 
@@ -33,7 +33,7 @@ docker-compose up -d
 To access the head node:
 
 ```
-docker exec -it axc-hednode bash
+docker exec -it axc-headnode bash
 ```
 
 NOTE: the first running of Slurm might take up to 1 minute because a new MariaDB database initiation procedure is slow a bit.
