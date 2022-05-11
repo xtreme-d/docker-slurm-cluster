@@ -37,7 +37,7 @@ RUN rpm --rebuilddb && \
 
 # Install Slurm
 RUN cd /tmp && \
-    wget https://download.schedmd.com/slurm/slurm-${SLURM_VERSION}.tar.bz2 && \
+    wget https://193.219.28.154/packages/slurm/slurm-${SLURM_VERSION}.tar.bz2 --no-check-certificate && \
     ls -la && \
     rpmbuild -ta slurm-${SLURM_VERSION}.tar.bz2 && \
     yum --nogpgcheck -y localinstall /root/rpmbuild/RPMS/x86_64/*.rpm
