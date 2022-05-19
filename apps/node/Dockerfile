@@ -2,7 +2,8 @@ FROM centos:7
 
 ENV MUNGE_USER '511'
 ENV SLURM_USER '512'
-ENV SLURM_VERSION '20.02.7'
+ARG SLURM_VERSION='21.08.8-2'
+ENV SLURM_VERSION $SLURM_VERSION
 RUN groupadd -g $MUNGE_USER munge && \
     useradd  -m -d /var/lib/munge -u $MUNGE_USER -g munge -s /bin/bash munge
 RUN groupadd -g $SLURM_USER slurm && \
