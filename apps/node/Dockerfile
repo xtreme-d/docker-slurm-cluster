@@ -1,14 +1,25 @@
 FROM centos:7
 
-ENV MUNGE_USER '511'
-ENV SLURM_USER '512'
+# Initial slurm parameters and release file existence check
 ARG SLURM_VERSION='21.08.8-2'
 ENV SLURM_VERSION $SLURM_VERSION
+ENV SLURM_RELEASE_FILE "https://download.schedmd.com/slurm/slurm-${SLURM_VERSION}.tar.bz2"
+RUN response_code=`curl -o /dev/null -Isw '%{http_code}\n' "${SLURM_RELEASE_FILE}"`; \
+    if [ "$response_code" != "200" ]; then \
+      echo "Unable to download file ${SLURM_RELEASE_FILE}, response code ${response_code} received."; \
+      exit 1; \
+    fi
+
+# Create users and groups
+ENV MUNGE_USER '511'
+ENV SLURM_USER '512'
+
 RUN groupadd -g $MUNGE_USER munge && \
     useradd  -m -d /var/lib/munge -u $MUNGE_USER -g munge -s /bin/bash munge
 RUN groupadd -g $SLURM_USER slurm && \
     useradd  -m -d /var/lib/slurm -u $SLURM_USER -g slurm -s /bin/bash slurm
 
+# Install requirements
 RUN rpm --rebuilddb && \
     yum install -y epel-release && \
     yum update -y && \
