@@ -8,7 +8,7 @@ It consist of the following services:
 - head node (munge, slurmd, slurmctld, slurmdbd)
 - compute node x4 (munge, slurmd)
 
-The slurm version is `v20.02.7`
+The slurm version is `v21.08.8-2`
 
 # How to deploy
 
