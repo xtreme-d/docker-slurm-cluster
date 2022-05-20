@@ -9,6 +9,8 @@ services:
     hostname: axc-headnode
     container_name: axc-headnode
     volumes:
+      # entrypoint
+      - ./apps/node/docker-entrypoint.sh:/docker-entrypoint.sh
       # support scripts
       - ./bin:/usr/local/bin/
       # configs
@@ -42,6 +44,8 @@ services:
     hostname: axc-compute-01
     image: axc-node:dev
     volumes:
+      # entrypoint
+      - ./apps/node/docker-entrypoint.sh:/docker-entrypoint.sh
       # support scripts
       - ./bin:/usr/local/bin/
       # configs
@@ -65,6 +69,8 @@ services:
     hostname: axc-compute-02
     image: axc-node:dev
     volumes:
+      # entrypoint
+      - ./apps/node/docker-entrypoint.sh:/docker-entrypoint.sh
       # support scripts
       - ./bin:/usr/local/bin/
       # configs
@@ -88,6 +94,8 @@ services:
     hostname: axc-compute-03
     image: axc-node:dev
     volumes:
+      # entrypoint
+      - ./apps/node/docker-entrypoint.sh:/docker-entrypoint.sh
       # support scripts
       - ./bin:/usr/local/bin/
       # configs
@@ -111,6 +119,8 @@ services:
     hostname: axc-compute-04
     image: axc-node:dev
     volumes:
+      # entrypoint
+      - ./apps/node/docker-entrypoint.sh:/docker-entrypoint.sh
       # support scripts
       - ./bin:/usr/local/bin/
       # configs

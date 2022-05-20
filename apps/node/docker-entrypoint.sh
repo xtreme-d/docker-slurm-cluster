@@ -39,5 +39,9 @@ if [ ! -d /var/spool/munge ]; then
   chown -R munge: /var/spool/munge
 fi
 
+# Ensure file permissions and ownership
+chmod 600 /etc/slurm/slurmdbd.conf
+chown slurm:slurm /etc/slurm/slurm.conf
+chown slurm:slurm /etc/slurm/slurmdbd.conf
 
 exec "$@"
